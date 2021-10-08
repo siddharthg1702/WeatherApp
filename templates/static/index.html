@@ -1,0 +1,228 @@
+<!Doctype HTML>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="weather app description">
+	<title>Weather</title>
+	<link rel="stylesheet" href="../static/style.css">
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/windbarb.js"></script>
+	<script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+	<script src="https://code.highcharts.com/modules/data.js"></script>
+	<script src="http://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+
+<body>
+	<header>
+	</header>
+	<main>
+
+		<br>
+		<br>
+
+		<div class="search_card">
+			<div id="search_card_header"
+				style="height: 120px; background-image: url('https://raw.githubusercontent.com/siddharthg1702/WeatherApp/main/banner.jpg'); background-position: top;">
+				<p id="search_card_header_title">
+					Weather Search
+				</p>
+				<p id="search_card_header_subtitle">
+					Fill out the form to get weather info!
+				</p>
+			</div>
+			<div class="search_card_body">
+				<form id="weather_form" autocomplete="on">
+					<div class="form_row">
+						<div class="form_element" id="form_street">
+							<label class="req">Street</label><br>
+							<input type="text" id="street" name="street" required><br>
+						</div>
+					</div>
+					<div class="form_row">
+						<div class="form_column">
+							<div class="form_element" id="form_city">
+								<label class="req">City</label><br>
+								<input type="text" id="city" name="city" required>
+							</div>
+						</div>
+						<div class="form_column">
+							<div class="form_element" id="form_state">
+								<label class="req">State</label>
+								<select id="state" name="state" required>
+									<option value="" selected disabled>Select Your State</option>
+									<option value="AL">Alabama</option>
+									<option value="AK">Alaska</option>
+									<option value="AZ">Arizona</option>
+									<option value="AR">Arkansas</option>
+									<option value="CA">California</option>
+									<option value="CO">Colorado</option>
+									<option value="CT">Connecticut</option>
+									<option value="DE">Delaware</option>
+									<option value="DC">District Of Columbia</option>
+									<option value="FL">Florida</option>
+									<option value="GA">Georgia</option>
+									<option value="HI">Hawaii</option>
+									<option value="ID">Idaho</option>
+									<option value="IL">Illinois</option>
+									<option value="IN">Indiana</option>
+									<option value="IA">Iowa</option>
+									<option value="KS">Kansas</option>
+									<option value="KY">Kentucky</option>
+									<option value="LA">Louisiana</option>
+									<option value="ME">Maine</option>
+									<option value="MD">Maryland</option>
+									<option value="MA">Massachusetts</option>
+									<option value="MI">Michigan</option>
+									<option value="MN">Minnesota</option>
+									<option value="MS">Mississippi</option>
+									<option value="MO">Missouri</option>
+									<option value="MT">Montana</option>
+									<option value="NE">Nebraska</option>
+									<option value="NV">Nevada</option>
+									<option value="NH">New Hampshire</option>
+									<option value="NJ">New Jersey</option>
+									<option value="NM">New Mexico</option>
+									<option value="NY">New York</option>
+									<option value="NC">North Carolina</option>
+									<option value="ND">North Dakota</option>
+									<option value="OH">Ohio</option>
+									<option value="OK">Oklahoma</option>
+									<option value="OR">Oregon</option>
+									<option value="PA">Pennsylvania</option>
+									<option value="RI">Rhode Island</option>
+									<option value="SC">South Carolina</option>
+									<option value="SD">South Dakota</option>
+									<option value="TN">Tennessee</option>
+									<option value="TX">Texas</option>
+									<option value="UT">Utah</option>
+									<option value="VT">Vermont</option>
+									<option value="VA">Virginia</option>
+									<option value="WA">Washington</option>
+									<option value="WV">West Virginia</option>
+									<option value="WI">Wisconsin</option>
+									<option value="WY">Wyoming</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<br>
+					<p id="auto-detect-text">
+						Want us to auto-detect your location? Check here<input type="checkbox" id="location"
+							name="location" value="location">
+					</p>
+					<input id="submit_search" name="submit_search" class="submit_button" type="submit" value="SUBMIT">
+					<button type="button" id="clear_search" name="clear_search" class="clear_button secondary_button"
+						onclick="clearFunc()">
+						CLEAR
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<div id="today-card" class="search_card" style="display:none;">
+			<div id="current-loc" style="color: #868686;">
+				Los Angeles
+			</div>
+			<div class="card-row">
+				<div class="card-column">
+					<div id="today-image">
+						<img id="today-image-icon" width="100" height="100">
+					</div>
+					<div id="status" style="color: #868686;">0</div>
+				</div>
+				<div class="card-column">
+					<div id="temperature" style="color: #868686; font-weight: 200;">1</div>
+				</div>
+
+			</div>
+			<br />
+			<br>
+			<div class="card-row">
+				<div class="weather-element">
+					<div class="weather-value">Humidity</div>
+					<img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-16-512.png"
+						id="today-humidity-icon" width="25" height="25" class="weather-image">
+
+					<div class="weather-value" id="humidity">0</div>
+				</div>
+				<div class="weather-element">
+					<div class="weather-value">Pressure</div>
+					<img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-25-512.png"
+						id="today-pressure-icon" width="25" height="25" class="weather-image">
+					<div class="weather-value" id="pressure">0</div>
+				</div>
+				<div class="weather-element">
+					<div class="weather-value">Wind Speed</div>
+					<img src="" id="today-wind-speed-icon" height="25" class="weather-image">
+					<div class="weather-value" id="wind-speed">0</div>
+				</div>
+				<div class="weather-element">
+					<div class="weather-value">Visibility</div>
+					<img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-30-512.png"
+						id="today-visibility-icon" width="25" height="25" class="weather-image">
+					<div class="weather-value" id="visibility">0</div>
+				</div>
+				<div class="weather-element">
+					<div class="weather-value">Cloud Cover</div>
+					<img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-28-512.png"
+						id="today-cloud-cover-icon" width="25" height="25" class="weather-image">
+					<div class="weather-value" id="cloud-cover">0</div>
+				</div>
+				<div class="weather-element">
+					<div class="weather-value">UV Level</div>
+					<img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-24-512.png"
+						id="today-uv-level-icon" width="25" height="25" class="weather-image">
+					<div class="weather-value" id="uv-level">0</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="forecast-section" style="display: none;">
+			<table id="forecast-table">
+				<thead>
+					<th>Date</th>
+					<th>Status</th>
+					<th>Temp High</th>
+					<th>Temp Low</th>
+					<th>Wind Speed</th>
+				</thead>
+			</table>
+		</div>
+		<div id="daily-header" style="display: none;">
+			<p style="text-align:center; font-size:3pc;position:relative; font-weight: 200;"> Daily Weather Details
+			<p>
+				<hr style="position:relative;top:-2.1pc; width:26pc;" , color=white>
+		</div>
+		<div id="daily-weather" class="card" style="display: none;">
+
+		</div>
+
+		<div id="chart-section" style="display: none;">
+			<p style="text-align:center; font-size:3pc;position:relative; font-weight: 200;"> Weather Charts
+			<p>
+				<hr style="position:relative;top:-2.1pc; width:26pc;" , color=white>
+				<a href="#chart"><input type="image"
+						src="https://raw.githubusercontent.com/siddharthg1702/WeatherApp/main/point-down-512.png"
+						id="displayGraph" onclick="displayGraphs1and2()"
+						style="width:3pc; margin-left: 47%; position: relative; top: -2pc; border:none" /></a>
+		</div>
+
+		<div id="chart">
+			<input type="image" src="https://raw.githubusercontent.com/siddharthg1702/WeatherApp/main/point-up-512.png"
+				id="removeGraph" onclick="removeGraphs()"
+				style="width:3pc; margin:auto; position: relative; display:none; border: none;" />
+			<div id="graphData"
+				style="width:60pc; height:400px;display:none; position: relative; top: 0pc; margin:auto"></div>
+			<div id="graphData2"
+				style="width:60pc; height:400px; display:none; position: relative; top: 5pc; margin:auto"></div>
+
+		</div>
+	</main>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="../static/js/script.js"></script>
+</body>
+
+</html>
